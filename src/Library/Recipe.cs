@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Full_GRASP_And_SOLID.Library
 {
@@ -24,15 +25,17 @@ namespace Full_GRASP_And_SOLID.Library
         {
             this.steps.Remove(step);
         }
-
-        public void PrintRecipe()
+        //El metodo devuelve como texto la receta, para que otra clase la pueda imprimir. 
+        //Se utiliza el patrón SRP, ya que cada clase tiene una responsabilidad sobre una parte de la funcionalidad del software
+        //      y esa responsabilidad, en este caso imprimir la receta, está completamente encapsulada por la clase ConsolePrinter.
+        public string GetRecipeText()
         {
-            Console.WriteLine($"Receta de {this.FinalProduct.Description}:");
-            foreach (Step step in this.steps)
-            {
-                Console.WriteLine($"{step.Quantity} de '{step.Input.Description}' " +
-                    $"usando '{step.Equipment.Description}' durante {step.Time}");
-            }
+           List<string> text = new List<string>();
+           foreach (Step step in this.steps)
+           {
+            text.Add($"{step.Quantity} de '{step.Input.Description}' usando '{step.Equipment.Description}' durante {step.Time}");
+           } 
+           return string.Join( "\n", text);
         }
     }
 }
